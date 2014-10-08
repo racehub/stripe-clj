@@ -6,6 +6,14 @@ A Clojure library designed to ... well, that part is up to you.
 
 FIXME
 
+## Testing
+
+You'll need this in your environment:
+
+```sh
+export STRIPE_DEV_TOKEN="stripe_dev_token"
+```
+
 ## License
 
 Copyright © 2014 FIXME
