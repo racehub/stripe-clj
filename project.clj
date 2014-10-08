@@ -17,7 +17,8 @@
                                 (schema.core/set-fn-validation! true)]
                    :dependencies [[environ "0.5.0"]]
                    :test-paths ["test/clj" "target/test/clj"]
-                   :plugins [[com.keminglabs/cljx "0.4.0"]]}}
+                   :plugins [[com.keminglabs/cljx "0.4.0"]
+                             [paddleguru/lein-gitflow "0.1.2"]]}}
   :cljx {:builds [{:source-paths ["src/cljx"]
                    :output-path "target/generated/clj"
                    :rules :clj}
