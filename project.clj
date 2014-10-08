@@ -11,7 +11,7 @@
   :hooks [cljx.hooks]
   :jar-exclusions [#"\.cljx|\.swp|\.swo|\.DS_Store"]
   :source-paths ["src/clj" "target/generated/clj"]
-  :resource-paths ["target/generated/cljs" "src/cljs"]
+  :resource-paths ["target/generated/cljs" "src/cljs" "resources"]
   :profiles {:1.7 {:dependencies [[org.clojure/clojure "1.7.0-alpha2"]]}
              :dev {:injections [(require 'schema.core)
                                 (schema.core/set-fn-validation! true)]
