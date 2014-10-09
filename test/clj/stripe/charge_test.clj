@@ -2,13 +2,14 @@
   (:use clojure.test
         stripe.charge)
   (:require [stripe.balance :as b]
-            [stripe.test :as t]))
+            [stripe.test :as t]
+            [stripe.test-data :as td]))
 
 (use-fixtures :once t/env-token)
 
 (deftest charge-test
   "Test for charging a customer."
-  (t/with-customer [created t/customer-data]
+  (t/with-customer [created td/customer-data]
     (let [id (:id created)
           charge (create-charge {:amount 2500
                                  :customer id})]

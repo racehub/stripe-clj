@@ -1,13 +1,14 @@
 (ns stripe.customer-test
   (:use clojure.test
         stripe.customer)
-  (:require [stripe.test :as t]))
+  (:require [stripe.test :as t]
+            [stripe.test-data :as td]))
 
 (use-fixtures :once t/env-token)
 
 (deftest customer-cycle-test
   "Test of the create, update, delete cycle for customers."
-  (let [created (create-customer t/customer-data)
+  (let [created (create-customer td/customer-data)
         id (:id created)
         retrieved (get-customer id)]
     (is (= created retrieved)

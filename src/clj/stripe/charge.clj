@@ -1,7 +1,6 @@
 (ns stripe.charge
   (:require [schema.core :as s]
             [stripe.balance :as b]
-            [stripe.card :as c]
             [stripe.customer :refer [CustomerID]]
             [stripe.http :as h]
             [stripe.schema :as ss]
@@ -72,7 +71,7 @@
        :amount ChargeAmount
        :currency ss/CurrencyID
        :refunded s/Bool
-       :card c/CardObject
+       :card CardObject
        :captured s/Bool
        :refunds [Refund]
        :balance_transaction (s/either b/BalanceTxID b/BalanceTx)
