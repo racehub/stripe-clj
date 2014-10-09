@@ -39,6 +39,12 @@
   `(binding [*token* ~k]
      ~@forms))
 
+(defn use-token!
+  "Permanently sets a base token. The token can still be overridden on
+  a per-thread basis using with-token."
+  [s]
+  (alter-var-root #'*token* (constantly s)))
+
 ;; ## Private
 
 (s/defn method-url :- s/Str
