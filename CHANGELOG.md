@@ -1,3 +1,7 @@
+## 0.1.2 (10/08/2014)
+
+- Relax charge schema until I can get errors going.
+
 ## 0.1.1 (10/08/2014)
 
 - Add externs file for StripeCheckout.
