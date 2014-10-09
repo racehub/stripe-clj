@@ -8,7 +8,7 @@
                  [http-kit "2.1.19"]
                  [org.clojure/clojure "1.6.0"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
-                 [prismatic/schema "0.2.2"]]
+                 [prismatic/schema "0.3.0" :exclude [org.clojure/clojurescript]]]
   :hooks [cljx.hooks]
   :jar-exclusions [#"\.cljx|\.swp|\.swo|\.DS_Store"]
   :source-paths ["src/clj" "target/generated/clj"]

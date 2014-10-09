@@ -1,3 +1,7 @@
+## 0.1.5
+
+- upgrade to schema 0.3.0
+
 ## 0.1.4 (10/08/2014)
 
 - Fix schema bug in http and token.
