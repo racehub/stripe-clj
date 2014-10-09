@@ -1,4 +1,4 @@
-## 0.1.3
+## 0.1.3 (10/08/2014)
 
 - Add `http/use-token!`, for permanent token setting
 
