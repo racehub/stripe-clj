@@ -2,20 +2,21 @@
   (:use clojure.test
         stripe.recipient)
   (:require [stripe.test :as t]
+            [stripe.test-data :as td]
             [stripe.token :as st]))
 
 (use-fixtures :once t/env-token)
 
 (deftest recipient-test
-  (t/with-recipient [r t/fake-individual]
+  (t/with-recipient [r td/fake-individual]
     (is (= r (get-recipient (:id r)))
         "Getting the recipient returns the object.")
     (is (nil? (:active_account r))
         "No bank account is yet attached.")
-    (is (= t/fake-individual
+    (is (= td/fake-individual
            (select-keys r [:name :type :email]))
         "Original settings get mirrored over.")
-    (let [bank (st/create-bank-token t/test-bank)
+    (let [bank (st/create-bank-token td/test-bank)
           updated (update-recipient (:id r) {:bank_account (:id bank)})
           killed (update-recipient (:id r) {:bank_account nil})
           errored (update-recipient (:id r) {:bank_account (:id bank)})]

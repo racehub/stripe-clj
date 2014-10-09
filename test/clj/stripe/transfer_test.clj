@@ -3,13 +3,14 @@
         stripe.transfer)
   (:require [stripe.balance :as b]
             [stripe.charge :as c]
-            [stripe.test :as t]))
+            [stripe.test :as t]
+            [stripe.test-data :as td]))
 
 (use-fixtures :once t/env-token)
 
 (deftest transfer-test
-  (t/with-customer [c t/customer-data]
-    (t/with-recipient [r t/fake-individual-with-account]
+  (t/with-customer [c td/customer-data]
+    (t/with-recipient [r td/fake-individual-with-account]
       (let [pre-balance (b/get-balance)
             charge (c/create-charge {:amount 10000
                                      :customer (:id c)

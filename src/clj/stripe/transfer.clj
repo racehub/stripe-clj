@@ -70,8 +70,12 @@ or not at all."))
 
    If your API key is in test mode, money won't actually be sent,
   though everything else will occur as if in live mode."
-  [options :- TransferReq]
-  (h/post-req "transfers" {:stripe-params options}))
+  ([options :- TransferReq]
+     (create-transfer options {}))
+  ([options :- TransferReq more :- h/RequestOptions]
+     (h/post-req "transfers"
+                 (assoc more
+                   :stripe-params options))))
 
 (s/defn get-transfer :- (ss/Async)
   "Returns a channel with a Transfer object, or an error if the
