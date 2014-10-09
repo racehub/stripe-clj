@@ -1,3 +1,7 @@
+## 0.1.3 (10/08/2014)
+
+- Add `http/use-token!`, for permanent token setting
+
 ## 0.1.2 (10/08/2014)
 
 - Relax charge schema until I can get errors going.
