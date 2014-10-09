@@ -1,6 +1,7 @@
 (ns stripe.http
   (:require [cheshire.core :as json]
             [clojure.core.async :as a]
+            [environ.core :as e]
             [org.httpkit.client :as http]
             [schema.core :as s]
             [stripe.schema :as ss]
@@ -33,7 +34,7 @@
 
 (s/defn api-token :- (s/maybe ApiToken)
   []
-  *token*)
+  (or *token* (:stripe-secret e/env)))
 
 (defmacro with-token [k & forms]
   `(binding [*token* ~k]
