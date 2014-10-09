@@ -1,6 +1,6 @@
 (ns stripe.token
   (:require [schema.core :as s]
-            [stripe.http :as h]
+            #+clj [stripe.http :as h]
             [stripe.schema :as ss]
             [stripe.util :as u]))
 
