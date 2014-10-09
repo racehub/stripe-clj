@@ -1,6 +1,6 @@
 (ns stripe.schema
   (:require [schema.core :as s :include-macros true]
-            [clojure.core.async :as a])
+            [#+clj clojure.core.async #+cljs cljs.core.async])
   #+clj (:import [clojure.core.async.impl.protocols ReadPort]))
 
 ;; ## Shared Schema
