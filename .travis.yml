@@ -3,10 +3,10 @@ lein: lein2
 script: lein2 test
 branches:
   only:
-    - develop
-    - master
+  - develop
+  - master
 jdk:
-  - openjdk7
+- openjdk7
 env:
   global:
-    - secure: "rv4Jj/w81RODzu44aaFwIuectGEFYyN+jutwJ0jcdNR8Ho8mI8kqMILz5tOo9MR4Tv9/ZPU96Yv3/3A6I1E7ziNa9TKbzxeAloJQxphZQIjKoNoz41XB13xOcfgnbr7Vu4tPnw3Ryic67FyiNwaKnFn7rQ8TpE3GOYJ3XjdBndo="
+    secure: LkrpSqUlIjf3+3qsDO2r3erx2tRokyYaIyCB9QT1eNjMncIvPcadmTKial67dRCbYGnwpMty2bXY7ze+uewvEapdBW/xQuNKkj4jdgP+jYc/6gx0JlD/2EmKgEhXLuA162TcfqjKaz6yvNMYtOdHK5bHHTlI+q2V60ieI9cuQpU=
