@@ -5,8 +5,6 @@
             [stripe.test-data :as td]
             [stripe.token :as st]))
 
-(use-fixtures :once t/env-token)
-
 (deftest recipient-test
   (t/with-recipient [r td/fake-individual]
     (is (= r (get-recipient (:id r)))

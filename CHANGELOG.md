@@ -1,7 +1,8 @@
 ## 0.1.5
 
 - upgrade to schema 0.3.0
-- Add the ability to set the stripe_secret with an environment variable.
+- Add the ability to set the `:stripe-secret` with an environment variable.
+- Change `:stripe-dev-token` to `:stripe-secret`
 
 ## 0.1.4 (10/08/2014)
 

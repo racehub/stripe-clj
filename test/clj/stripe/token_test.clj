@@ -1,10 +1,7 @@
 (ns stripe.token-test
   (:use clojure.test
         stripe.token)
-  (:require [stripe.test :as t]
-            [stripe.test-data :as td]))
-
-(use-fixtures :once t/env-token)
+  (:require [stripe.test-data :as td]))
 
 (deftest roundtrip-card-token-test
   (let [card-token (create-card-token td/test-card)]

@@ -6,8 +6,6 @@
             [stripe.test :as t]
             [stripe.test-data :as td]))
 
-(use-fixtures :once t/env-token)
-
 (deftest transfer-test
   (t/with-customer [c td/customer-data]
     (t/with-recipient [r td/fake-individual-with-account]

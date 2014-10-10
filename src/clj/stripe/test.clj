@@ -26,9 +26,10 @@
 
 (defn env-token
   "Clojure.test fixture that sets the stripe token for all tests using
-  the environment variable STRIPE_DEV_TOKEN.
+  the environment variable linked to the supplied keyword.
 
-  Use like: (clojure.test/use-fixtures :once t/env-token)"
-  [test-fn]
-  (h/with-token (:stripe-dev-token e/env)
-    (test-fn)))
+  Use like: (clojure.test/use-fixtures :once (t/env-token :stripe-dev-token))"
+  [k]
+  (fn [test-fn]
+    (h/with-token (k e/env)
+      (test-fn))))

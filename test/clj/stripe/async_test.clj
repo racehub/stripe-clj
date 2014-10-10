@@ -2,10 +2,7 @@
   "Test of Stripe's async capabilities."
   (:use clojure.test)
   (:require [clojure.core.async :as a]
-            [stripe.balance :as b]
-            [stripe.test :as t]))
-
-(use-fixtures :once t/env-token)
+            [stripe.balance :as b]))
 
 (deftest async-test
   (is (= (a/<!! (b/get-balance {:out-ch (a/chan)}))
