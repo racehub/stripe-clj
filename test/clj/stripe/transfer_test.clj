@@ -56,4 +56,29 @@
 
           (is (:error (cancel-transfer (:id to-us)))
               "You can't cancel a transaction that's already been
-              submitted."))))))
+              submitted.")
+
+          (let [transfer-a (create-transfer {:amount amt-to-transfer
+                                             :currency "usd"
+                                             :recipient (:id r)
+                                             :expand [:balance_transaction]})
+                transfer-b (create-transfer {:amount amt-to-transfer
+                                             :currency "usd"
+                                             :recipient (:id r)}
+                                            {:stripe-params
+                                             {:expand [:balance_transaction]}})
+                transfer-c (create-transfer {:amount 1000
+                                             :currency "usd"
+                                             :recipient (:id r)}
+                                            {:stripe-params
+                                             {:amount 2000}})
+                remove-id-and-time #(dissoc % :created :source :id :available_on)]
+            (is (= (remove-id-and-time (:balance_transaction transfer-a))
+                   (remove-id-and-time (:balance_transaction transfer-b)))
+                "You can specify the expand parameter in the first or
+                second argument to create-transfer; they're
+                equivalent.")
+            (is (= (:amount transfer-c) 1000)
+                "If you specify the same keyword in the first arg map
+                and the second arg map's stripe params, the value in
+                the first arg map wins.")))))))
