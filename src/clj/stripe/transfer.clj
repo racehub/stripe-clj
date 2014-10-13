@@ -32,7 +32,8 @@ or not at all."))
    :recipient (s/either (s/eq "self") r/RecipientID)
    (s/optional-key :description) TransferDescription
    (s/optional-key :statement_description) StatementDescription
-   (s/optional-key :metadata) ss/Metadata})
+   (s/optional-key :metadata) ss/Metadata
+   (s/optional-key :expand) h/Expansion})
 
 (def TransferUpdate
   "Supported inputs for updating a Transfer object."
@@ -74,8 +75,7 @@ or not at all."))
      (create-transfer options {}))
   ([options :- TransferReq more :- h/RequestOptions]
      (h/post-req "transfers"
-                 (assoc more
-                   :stripe-params options))))
+                 (update more :stripe-params merge options))))
 
 (s/defn get-transfer :- (ss/Async)
   "Returns a channel with a Transfer object, or an error if the
@@ -84,9 +84,14 @@ or not at all."))
   Retrieves the details of an existing transfer. Supply the unique
   transfer ID from either a transfer creation request or the transfer
   list, and Stripe will return the corresponding transfer
-  information."
-  [id :- TransferID]
-  (h/get-req (str "transfers/" id)))
+  information.
+
+  An optional map of RequestOptions can be used to expand the
+  balance_transaction field or supply an async channel."
+  ([id :- TransferID]
+     (get-transfer id {}))
+  ([id :- TransferID more :- h/RequestOptions]
+     (h/get-req (str "transfers/" id) more)))
 
 (s/defn update-transfer :- (ss/Async)
   "Updates the specified transfer by setting the values of the
