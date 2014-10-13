@@ -51,7 +51,7 @@ or not at all."))
        (s/optional-key :type) (s/eq "bank_account")
        (s/optional-key :account) r/BankAccount
        (s/optional-key :bank_account) r/BankAccount
-       :balance_transaction b/BalanceTxID
+       :balance_transaction (s/either b/BalanceTxID b/BalanceTx)
        :description (s/maybe TransferDescription)
        :metadata ss/Metadata
        :recipient (-> (s/maybe r/RecipientID)
@@ -63,7 +63,7 @@ or not at all."))
 
 ;; ## Transfers API
 
-(s/defn create-transfer :- (ss/Async)
+(s/defn create-transfer :- (ss/Async Transfer)
   "Returns a channel with a Transfer object. To send funds from your
    Stripe account to a third-party bank account, you create a new
    transfer object. Your Stripe balance must be able to cover the
@@ -77,7 +77,7 @@ or not at all."))
      (h/post-req "transfers"
                  (update more :stripe-params merge options))))
 
-(s/defn get-transfer :- (ss/Async)
+(s/defn get-transfer :- (ss/Async Transfer)
   "Returns a channel with a Transfer object, or an error if the
   transfer does not exist.
 
@@ -93,7 +93,7 @@ or not at all."))
   ([id :- TransferID more :- h/RequestOptions]
      (h/get-req (str "transfers/" id) more)))
 
-(s/defn update-transfer :- (ss/Async)
+(s/defn update-transfer :- (ss/Async Transfer)
   "Updates the specified transfer by setting the values of the
    parameters passed. Any parameters not provided will be left
    unchanged. Returns a channel with the updated transfer object.
@@ -104,7 +104,7 @@ or not at all."))
   (h/post-req (str "transfers/" id)
               {:stripe-params options}))
 
-(s/defn cancel-transfer :- (ss/Async)
+(s/defn cancel-transfer :- (ss/Async Transfer)
   "Returns a channel with either a Transfer object (if the
    cancellation succeeded) or an error.
 
