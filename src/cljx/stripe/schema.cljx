@@ -29,6 +29,10 @@
               #+clj ReadPort
               "core.async channel.")))
 
+(def StripeError
+  "Stripe API error."
+  {:error {s/Any s/Any}})
+
 (defn Async
   "Takes a schema and returns an either schema for the passed-in inner
   schema OR a channel. If the Stripe method called is async, The inner

@@ -61,9 +61,12 @@ or not at all."))
        :statement_description (s/maybe StatementDescription)}
       (ss/stripe-object "transfer")))
 
+(def TransferAPIResponse
+  (ss/Async (s/either Transfer ss/StripeError)))
+
 ;; ## Transfers API
 
-(s/defn create-transfer :- (ss/Async Transfer)
+(s/defn create-transfer :- TransferAPIResponse
   "Returns a channel with a Transfer object. To send funds from your
    Stripe account to a third-party bank account, you create a new
    transfer object. Your Stripe balance must be able to cover the
@@ -77,7 +80,7 @@ or not at all."))
      (h/post-req "transfers"
                  (update-in more [:stripe-params] merge options))))
 
-(s/defn get-transfer :- (ss/Async Transfer)
+(s/defn get-transfer :- TransferAPIResponse
   "Returns a channel with a Transfer object, or an error if the
   transfer does not exist.
 
@@ -93,7 +96,7 @@ or not at all."))
   ([id :- TransferID more :- h/RequestOptions]
      (h/get-req (str "transfers/" id) more)))
 
-(s/defn update-transfer :- (ss/Async Transfer)
+(s/defn update-transfer :- TransferAPIResponse
   "Updates the specified transfer by setting the values of the
    parameters passed. Any parameters not provided will be left
    unchanged. Returns a channel with the updated transfer object.
@@ -104,7 +107,7 @@ or not at all."))
   (h/post-req (str "transfers/" id)
               {:stripe-params options}))
 
-(s/defn cancel-transfer :- (ss/Async Transfer)
+(s/defn cancel-transfer :- TransferAPIResponse
   "Returns a channel with either a Transfer object (if the
    cancellation succeeded) or an error.
 
