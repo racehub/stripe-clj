@@ -75,7 +75,7 @@ or not at all."))
      (create-transfer options {}))
   ([options :- TransferReq more :- h/RequestOptions]
      (h/post-req "transfers"
-                 (update more :stripe-params merge options))))
+                 (update-in more [:stripe-params] merge options))))
 
 (s/defn get-transfer :- (ss/Async Transfer)
   "Returns a channel with a Transfer object, or an error if the
