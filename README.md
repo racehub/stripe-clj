@@ -14,8 +14,10 @@ Here's the latest Leiningen version info:
 You'll need this in your environment:
 
 ```sh
-export STRIPE_DEV_TOKEN="stripe_dev_token"
+export STRIPE_SECRET="stripe_secret_token"
 ```
+
+You should probably use your dev token.
 
 ## License
 

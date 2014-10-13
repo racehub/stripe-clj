@@ -5,8 +5,6 @@
             [stripe.test :as t]
             [stripe.test-data :as td]))
 
-(use-fixtures :once t/env-token)
-
 (deftest balance-test
   (t/with-customer [c td/customer-data]
     (let [pre-balance (get-balance)
