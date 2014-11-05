@@ -19,6 +19,11 @@ export STRIPE_SECRET="stripe_secret_token"
 
 You should probably use your dev token.
 
+## Authors
+
+- Sam Ritchie <https://twitter.com/sritchie>
+- Dave Petrovics <https://github.com/dpetrovics>
+
 ## License
 
 Copyright © 2014 RaceHub
