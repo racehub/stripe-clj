@@ -1,8 +1,13 @@
-## 0.1.5
+## 0.1.6 (2/11/2014)
+
+- Custom checkout images and data (https://github.com/racehub/stripe-clj/pull/3)
+
+## 0.1.5 (10/14/2014)
 
 - upgrade to schema 0.3.0
 - Add the ability to set the `:stripe-secret` with an environment variable.
 - Change `:stripe-dev-token` to `:stripe-secret`
+- Add expansions to transfer request (https://github.com/racehub/stripe-clj/pull/2)
 
 ## 0.1.4 (10/08/2014)
 
