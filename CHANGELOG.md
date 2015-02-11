@@ -1,4 +1,6 @@
-## 0.1.6
+## 0.1.6 (2/11/2014)
+
+- Custom checkout images and data (https://github.com/racehub/stripe-clj/pull/3)
 
 ## 0.1.5 (10/14/2014)
 
