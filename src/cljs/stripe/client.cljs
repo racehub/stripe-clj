@@ -23,15 +23,15 @@
   [{:keys [out image key]} :- StripeOptions]
   (-> js/StripeCheckout
       (.configure #js {:key key
-                       :image inage
+                       :image image
                        :opened #(put! out [:opened])
                        :closed #(put! out [:closed])
                        :token (fn [t args] (put! out [:token (js->clj t :keywordize-keys true)]))})))
 
 (s/defn present-stripe
-  [{:keys [amt email] :as opts} :- StripeOptions]
+  [{:keys [amt email name description] :as opts} :- StripeOptions]
   (.open (stripe-handler opts)
-         #js {:name "PaddleGuru"
+         #js {:name name
               :email email
-              :description "Registration Checkout"
+              :description description
               :amount amt}))
