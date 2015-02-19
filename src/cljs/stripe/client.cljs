@@ -13,7 +13,7 @@
    :out (ss/Channel)
    :name (s/named s/Str "Name you want to appear.")
    :description (s/named s/Str "Description for the checkout window.")
-   (s/optional-key :bitcoin?)
+   (s/optional-key :bitcoin?) s/Bool
    (s/optional-key :image) (s/named s/Str "URL for the header image.")})
 
 (s/defn stripe-handler
