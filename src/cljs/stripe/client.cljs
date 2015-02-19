@@ -13,6 +13,7 @@
    :out (ss/Channel)
    :name (s/named s/Str "Name you want to appear.")
    :description (s/named s/Str "Description for the checkout window.")
+   (s/optional-key :bitcoin?)
    (s/optional-key :image) (s/named s/Str "URL for the header image.")})
 
 (s/defn stripe-handler
@@ -20,10 +21,11 @@
   site (in test mode). When the order's submitted, Stripe will pass a
   map of :token -> stripe token and :args -> additional args into the
   supplied channel."
-  [{:keys [out image key]} :- StripeOptions]
+  [{:keys [out image key bitcoin?]} :- StripeOptions]
   (-> js/StripeCheckout
       (.configure #js {:key key
                        :image image
+                       :bitcoin (boolean bitcoin?)
                        :opened #(put! out [:opened])
                        :closed #(put! out [:closed])
                        :token (fn [t args] (put! out [:token (js->clj t :keywordize-keys true)]))})))
