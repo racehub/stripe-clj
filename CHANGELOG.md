@@ -1,4 +1,8 @@
-## 0.1.6 (2/11/2014)
+## 0.1.7 (2/19/2015)
+
+- Added `:bitcoin?` option on the client
+
+## 0.1.6 (2/11/2015)
 
 - Custom checkout images and data (https://github.com/racehub/stripe-clj/pull/3)
 
