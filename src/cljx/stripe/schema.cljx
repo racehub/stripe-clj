@@ -42,11 +42,6 @@
   ([inner]
      (s/either inner (Channel inner))))
 
-(def CurrencyID
-  "Currently only USD is supported, because we're located in the
-  US. Generalize if Stripe opens this up."
-  (s/eq "usd"))
-
 (s/defschema Metadata
   "Metadata feature supported by the Stripe API. Keyword keys are converted to strings on the way over.
    Only 10 KV pairs are currently supported."

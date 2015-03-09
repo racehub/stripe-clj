@@ -20,7 +20,7 @@
   "Supported options for a Stripe charge request."
   (-> {:amount ChargeAmount
        (s/optional-key :expand) h/Expansion
-       (s/optional-key :currency) ss/CurrencyID
+       (s/optional-key :currency) s/Str
        (s/optional-key :card) t/Card
        (s/optional-key :customer) CustomerID
        (s/optional-key :description) s/Str
@@ -37,7 +37,7 @@
 
 (s/defschema Refund
   (-> {:amount ss/Currency
-       :currency ss/CurrencyID
+       :currency s/Str
        :created ss/UnixTimestamp
        :balance_transaction (s/either b/BalanceTxID b/BalanceTx)}
       (ss/stripe-object "refund")))
@@ -69,7 +69,7 @@
        :livemode s/Bool
        :paid s/Bool
        :amount ChargeAmount
-       :currency ss/CurrencyID
+       :currency s/Str
        :refunded s/Bool
        :card CardObject
        :captured s/Bool
@@ -92,7 +92,7 @@
   [options :- ChargeReq]
   (h/post-req "charges"
               {:stripe-params
-               (assoc options :currency "usd")}))
+               (merge {:currency "usd"} options)}))
 
 (s/defn retrieve-charge :- (ss/Async)
   "Returns a channel containing the charge if it exists, or an error
