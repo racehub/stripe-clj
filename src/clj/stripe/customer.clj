@@ -42,3 +42,10 @@
   "Deletes the supplied customer."
   [customer-id :- CustomerID]
   (h/delete-req (str "customers/" customer-id)))
+
+(s/defn create-card :- (ss/Async)
+  "Creates a new card associated with the user"
+  [customer-id :- CustomerID
+   card :- t/Card]
+  (h/post-req (str "customers/" customer-id "/sources")
+              {:stripe-params {:source card}}))
