@@ -28,7 +28,7 @@ or not at all."))
 (def TransferReq
   "Supported inputs for creating a Transfer object."
   {:amount ss/PositiveInt
-   :currency ss/CurrencyID
+   :currency s/Str
    :recipient (s/either (s/eq "self") r/RecipientID)
    (s/optional-key :description) TransferDescription
    (s/optional-key :statement_description) StatementDescription
@@ -45,7 +45,7 @@ or not at all."))
        :livemode s/Bool
        :amount ss/PositiveInt
        :created ss/UnixTimestamp
-       :currency ss/CurrencyID
+       :currency s/Str
        :date ss/UnixTimestamp
        :status (s/enum "paid" "pending" "failed" "canceled")
        (s/optional-key :type) (s/eq "bank_account")

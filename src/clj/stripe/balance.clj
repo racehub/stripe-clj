@@ -11,7 +11,7 @@
 
 (def BalanceAmount
   {:amount ss/NonNegativeInt
-   :currency ss/CurrencyID})
+   :currency s/Str})
 
 (def BalanceTxID
   (s/named s/Str "ID of a balance transaction."))
@@ -26,7 +26,7 @@
   "Details about this particular Stripe fee in the Balance Transaction
   fee breakdown list."
   {:amount s/Int
-   :currency ss/CurrencyID
+   :currency s/Str
    :type s/Str
    :description (s/maybe s/Str)
    :application (s/maybe s/Str)})
@@ -41,7 +41,7 @@
        :amount s/Int
        :available_on ss/UnixTimestamp
        :created ss/UnixTimestamp
-       :currency ss/CurrencyID
+       :currency s/Str
        :fee s/Int
        :fee_details [FeeDetails]
        :net s/Int

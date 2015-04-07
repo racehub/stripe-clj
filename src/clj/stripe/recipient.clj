@@ -18,7 +18,7 @@
 (def BankAccount
   (-> {:id s/Str
        :verified s/Bool
-       :currency ss/CurrencyID
+       :currency s/Str
        :bank_name (s/maybe (s/named s/Str "Name of the bank associated with the
    routing number, e.g. WELLS FARGO."))
        :last4 s/Str
