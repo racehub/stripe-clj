@@ -101,7 +101,7 @@
 
 ;; ## Charge API Requests
 
-(s/defn create-charge :- (ss/Async Charge)
+(s/defn create-charge :- (ss/Async)
   [options :- ChargeReq]
   (h/post-req "charges"
               {:stripe-params
