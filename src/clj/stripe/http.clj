@@ -94,7 +94,7 @@
         base-params {:basic-auth token
                      :query-params params
                      :throw-exceptions false}
-        version (when-let [v (or (:api-version opts) *api-version*)]
+        version (when-let [v (or (:api-version opts) (api-version))]
                   {:headers {"Stripe-Version" v}})]
     (merge base-params version (dissoc opts :api-version))))
 
