@@ -9,8 +9,10 @@
   "Test for charging a customer."
   (t/with-customer [created td/customer-data]
     (let [id (:id created)
-          charge (create-charge {:amount 2500
-                                 :customer id})]
+          charge (create-charge
+                  {:amount 2500
+                   :customer id})]
+
       (is (true? (:paid charge))
           "Charge is fully paid.")
 
@@ -34,6 +36,7 @@
       (let [refunded (refund-charge {:id (:id charge)
                                      :amount 100})
             fully-refunded (refund-charge {:id (:id charge)})]
+
         (is (= 2400 (amount-available refunded))
             "Now the funds are dwindling.")
 

@@ -21,12 +21,12 @@
   (-> {:amount ChargeAmount
        (s/optional-key :expand) h/Expansion
        (s/optional-key :currency) ss/CurrencyID
-       (s/optional-key :card) t/Card
+       (s/optional-key :source) t/Card
        (s/optional-key :customer) CustomerID
        (s/optional-key :description) s/Str
        (s/optional-key :metadata) ss/Metadata
        (s/optional-key :capture) boolean}
-      (s/both (s/pred (some-fn :card :customer)))))
+      (s/both (s/pred (some-fn :source :customer)))))
 
 (s/defschema RefundReq
   "Supported options for a Stripe refund request."
@@ -42,10 +42,13 @@
        :balance_transaction (s/either b/BalanceTxID b/BalanceTx)}
       (ss/stripe-object "refund")))
 
+(s/defschema BitcoinReceiver
+  {s/Any s/Any})
+
 (s/defschema CardObject
   (-> {:id s/Str
        :last4 s/Str
-       :type s/Str
+       :brand s/Str
        :exp_month t/ExpMonth
        :exp_year t/ExpYear
        :fingerprint s/Str
@@ -58,22 +61,26 @@
        :address_zip (s/maybe s/Str)
        :address_state (s/maybe s/Str)
        :address_country (s/maybe s/Str)
-       :cvc_check (s/maybe (s/enum "pass" "fail" "unchecked"))
+       :cvc_check (s/maybe (s/enum "pass" "fail" "unchecked" "unavailable"))
        :address_line1_check (s/maybe s/Str)
        :address_zip_check (s/maybe s/Str)}
       (ss/stripe-object "card")))
+
+(s/defschema Source
+  (s/either BitcoinReceiver CardObject))
 
 (s/defschema Charge
   (-> {:id ChargeID
        :created ss/UnixTimestamp
        :livemode s/Bool
        :paid s/Bool
+       :status (s/enum "succeeded" "failed")
        :amount ChargeAmount
        :currency ss/CurrencyID
        :refunded s/Bool
-       :card CardObject
+       :source Source
        :captured s/Bool
-       :refunds [Refund]
+       :refunds (ss/sublist [Refund])
        :balance_transaction (s/either b/BalanceTxID b/BalanceTx)
        :failure_message (s/maybe s/Str)
        :failure_code (s/maybe s/Str)
@@ -81,14 +88,20 @@
        :customer (s/maybe CustomerID)
        :invoice (s/maybe s/Str)
        :description (s/maybe s/Str)
-       :dispute (s/maybe s/Str)
+       :dispute (s/maybe {s/Any s/Any})
        :metadata ss/Metadata
-       :statement_description (s/maybe s/Str)}
+       :statement_descriptor (s/maybe s/Str)
+       :receipt_email (s/maybe s/Str)
+       :destination (s/maybe s/Str)
+       :application_fee (s/maybe s/Str)
+       :fraud_details {s/Any s/Any}
+       :shipping (s/maybe {s/Any s/Any})
+       (s/optional-key :transfer) s/Str}
       (ss/stripe-object "charge")))
 
 ;; ## Charge API Requests
 
-(s/defn create-charge :- (ss/Async)
+(s/defn create-charge :- (ss/Async Charge)
   [options :- ChargeReq]
   (h/post-req "charges"
               {:stripe-params
