@@ -33,3 +33,6 @@
   (fn [test-fn]
     (h/with-token (k e/env)
       (test-fn))))
+
+(defn api-version-fixture [v]
+  (fn [f] (h/with-api-version v (f))))

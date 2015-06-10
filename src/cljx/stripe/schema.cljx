@@ -63,3 +63,12 @@
   (assoc m
     :object (s/eq object-name)
     s/Any s/Any))
+
+(s/defn sublist
+  "Returns a schema for a sublist object."
+  [data :- [s/Any]]
+  {:object (s/eq "list")
+   :has_more s/Bool
+   :url s/Str
+   :total_count s/Int
+   :data data})

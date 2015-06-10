@@ -1,4 +1,4 @@
-(defproject racehub/stripe-clj "0.1.9-SNAPSHOT"
+(defproject racehub/stripe-clj "0.2.0-SNAPSHOT"
   :description "Schemafied Stripe bindings for Clojure."
   :url "https://github.com/racehub/stripe-clj"
   :license {:name "Eclipse Public License"

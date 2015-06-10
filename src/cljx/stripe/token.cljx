@@ -33,7 +33,8 @@
   (s/named s/Str "The cardholder's full name."))
 
 (def CardMap
-  {:number CardNumber
+  {:object (s/eq "card")
+   :number CardNumber
    :exp_month ExpMonth
    :exp_year ExpYear
    (s/optional-key :cvc) CVC
