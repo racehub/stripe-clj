@@ -10,6 +10,7 @@
   "Test card, straight from Stripe's list:
   https://stripe.com/docs/testing"
   {:number "4242424242424242"
+   :object "card"
    :exp_month 1
    :exp_year 2025
    :cvc "123"
@@ -21,7 +22,7 @@
 
 (def customer-data
   {:description "Davey boy!"
-   :card test-card
+   :source test-card
    :metadata {:id "userid"
               :deathday "05-21-2062"
               :dnr "true"}

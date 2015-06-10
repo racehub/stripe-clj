@@ -72,7 +72,7 @@
                                              :recipient (:id r)}
                                             {:stripe-params
                                              {:amount 2000}})
-                remove-id-and-time #(dissoc % :created :source :id :available_on)]
+                remove-id-and-time #(dissoc % :created :source :id :available_on :sourced_transfers)]
             (is (= (remove-id-and-time (:balance_transaction transfer-a))
                    (remove-id-and-time (:balance_transaction transfer-b)))
                 "You can specify the expand parameter in the first or

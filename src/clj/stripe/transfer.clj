@@ -15,7 +15,7 @@
   transfer object. It is displayed when in the web interface alongside
   the transfer."))
 
-(def StatementDescription
+(def StatementDescriptor
   (s/named s/Str "An arbitrary string which will be displayed on the
 recipient's bank statement. This should not include your company name,
 as that will already be part of the descriptor. The maximum length of
@@ -31,7 +31,7 @@ or not at all."))
    :currency ss/CurrencyID
    :recipient (s/either (s/eq "self") r/RecipientID)
    (s/optional-key :description) TransferDescription
-   (s/optional-key :statement_description) StatementDescription
+   (s/optional-key :statement_descriptor) StatementDescriptor
    (s/optional-key :metadata) ss/Metadata
    (s/optional-key :expand) h/Expansion})
 
@@ -58,7 +58,7 @@ or not at all."))
                       (s/named "Nil if the transfer is to the Stripe
                   account's linked bank account."))
 
-       :statement_description (s/maybe StatementDescription)}
+       :statement_descriptor (s/maybe StatementDescriptor)}
       (ss/stripe-object "transfer")))
 
 (def TransferAPIResponse
@@ -75,10 +75,10 @@ or not at all."))
    If your API key is in test mode, money won't actually be sent,
   though everything else will occur as if in live mode."
   ([options :- TransferReq]
-     (create-transfer options {}))
+   (create-transfer options {}))
   ([options :- TransferReq more :- h/RequestOptions]
-     (h/post-req "transfers"
-                 (update-in more [:stripe-params] merge options))))
+   (h/post-req "transfers"
+               (update-in more [:stripe-params] merge options))))
 
 (s/defn get-transfer :- TransferAPIResponse
   "Returns a channel with a Transfer object, or an error if the
