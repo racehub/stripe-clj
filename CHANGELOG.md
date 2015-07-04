@@ -1,3 +1,7 @@
+## 0.2.1 (7/4/2015)
+
+- Upgraded to latest API schema.
+
 ## 0.1.8 (2/19/2015)
 
 - Added `:bitcoin?` option on the client
