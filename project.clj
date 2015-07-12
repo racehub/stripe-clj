@@ -6,7 +6,7 @@
   :dependencies [[cheshire "5.5.0"]
                  [environ "0.5.0"]
                  [http-kit "2.1.19"]
-                 [org.clojure/clojure "1.6.0"]
+                 [org.clojure/clojure "1.7.0"]
                  [org.clojure/core.async "0.1.346.0-17112a-alpha"]
                  [racehub/schema "0.4.4"]]
   :jar-exclusions [#"\.cljx|\.swp|\.swo|\.DS_Store"]
