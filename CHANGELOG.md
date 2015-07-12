@@ -1,3 +1,7 @@
+## 0.3.0 (7/12/2015)
+
+- Upgrade to Clojure 1.7.0 and cljc.
+
 ## 0.2.1 (7/4/2015)
 
 - Upgraded to latest API schema.

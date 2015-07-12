@@ -11,12 +11,12 @@
          (< x high))))
 
 (defn collectify [x]
-  #+cljs
-  (if (sequential? x) x [x])
-  #+clj
-  (cond (nil? x) []
-        (or (sequential? x) (instance? java.util.List x) (set? x)) x
-        :else [x]))
+  #?(:cljs
+     (if (sequential? x) x [x])
+     :clj
+     (cond (nil? x) []
+           (or (sequential? x) (instance? java.util.List x) (set? x)) x
+           :else [x])))
 
 (s/defn toggle-optional :- {s/Any s/Any}
   "Takes in a Schema, and a keyword to toggle."
