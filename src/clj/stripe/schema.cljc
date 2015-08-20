@@ -1,7 +1,8 @@
 (ns stripe.schema
   (:require [schema.core :as s :include-macros true]
-            [#+clj clojure.core.async #+cljs cljs.core.async])
-  #+clj (:import [clojure.core.async.impl.protocols ReadPort]))
+            #?(:clj clojure.core.async :cljs cljs.core.async))
+  #?(:clj
+     (:import [clojure.core.async.impl.protocols ReadPort])))
 
 ;; ## Shared Schema
 
@@ -25,9 +26,8 @@
   schema is ignored, and just for documentation purposes."
   ([] (Channel s/Any))
   ([inner]
-     (s/named #+cljs s/Any
-              #+clj ReadPort
-              "core.async channel.")))
+   (s/named #?(:cljs s/Any :clj ReadPort)
+            "core.async channel.")))
 
 (def StripeError
   "Stripe API error."
