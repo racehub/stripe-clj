@@ -19,6 +19,7 @@
 (s/defschema ChargeReq
   "Supported options for a Stripe charge request."
   (-> {:amount ChargeAmount
+       s/Any s/Any
        (s/optional-key :expand) h/Expansion
        (s/optional-key :currency) ss/CurrencyID
        (s/optional-key :source) t/Card
@@ -31,6 +32,7 @@
 (s/defschema RefundReq
   "Supported options for a Stripe refund request."
   (-> {:id ChargeID
+       s/Any s/Any
        (s/optional-key :expand) h/Expansion
        (s/optional-key :amount) ss/PositiveInt
        (s/optional-key :refund_application_fee) s/Bool}))

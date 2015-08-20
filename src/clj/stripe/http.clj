@@ -95,7 +95,8 @@
                      :query-params params
                      :throw-exceptions false}
         version (when-let [v (or (:api-version opts) (api-version))]
-                  {:headers {"Stripe-Version" v}})]
+                  {:headers (merge {"Stripe-Version" v}
+                                   (:headers opts))})]
     (merge base-params version (dissoc opts :api-version))))
 
 ;; ## Public Methods
