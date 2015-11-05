@@ -104,10 +104,10 @@
 ;; ## Charge API Requests
 
 (s/defn create-charge :- (ss/Async)
-  [options :- ChargeReq]
+  [{:keys [currency] :as options} :- ChargeReq]
   (h/post-req "charges"
               {:stripe-params
-               (assoc options :currency "usd")}))
+               (assoc options :currency (or currency "usd"))}))
 
 (s/defn retrieve-charge :- (ss/Async)
   "Returns a channel containing the charge if it exists, or an error
