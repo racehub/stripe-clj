@@ -13,6 +13,7 @@
    :out (ss/Channel)
    :name (s/named s/Str "Name you want to appear.")
    :description (s/named s/Str "Description for the checkout window.")
+   (s/optional-key :currency) (s/named s/Str "currency for transaction - USD default.")
    (s/optional-key :bitcoin?) s/Bool
    (s/optional-key :image) (s/named s/Str "URL for the header image.")})
 
@@ -31,9 +32,10 @@
                        :token (fn [t args] (put! out [:token (js->clj t :keywordize-keys true)]))})))
 
 (s/defn present-stripe
-  [{:keys [amt email name description] :as opts} :- StripeOptions]
+  [{:keys [amt email name description currency] :as opts} :- StripeOptions]
   (.open (stripe-handler opts)
          #js {:name name
               :email email
               :description description
+              :currency (or currency "USD")
               :amount amt}))
