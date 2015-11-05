@@ -26,7 +26,7 @@ You should probably use your dev token.
 
 ## License
 
-Copyright © 2014 RaceHub
+Copyright © 2015 RaceHub
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
