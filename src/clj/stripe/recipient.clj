@@ -17,22 +17,18 @@
 
 (def BankAccount
   (-> {:id s/Str
-       :verified s/Bool
+       :status (s/enum "new" "validated" "verified" "error")
        :currency ss/CurrencyID
        :bank_name (s/maybe (s/named s/Str "Name of the bank associated with the
    routing number, e.g. WELLS FARGO."))
        :last4 s/Str
        :country (s/named s/Str "Two-letter ISO code representing the
    country the bank account is located in")
-       :disabled DisabledStatus
+
        :fingerprint (-> (s/maybe s/Str)
                         (s/named "Uniquely identifies this particular bank
                     account. You can use this attribute to check
-                    whether two bank accounts are the same."))
-       :validated (-> (s/maybe s/Bool)
-                      (s/named "Whether or not the bank account exists. If
-   false, there isn’t enough information to know (e.g. for smaller
-   credit unions), or the validation is not being run."))}
+                    whether two bank accounts are the same."))}
       (ss/stripe-object "bank_account")))
 
 (def RecipientName

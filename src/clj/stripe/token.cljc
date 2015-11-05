@@ -1,6 +1,6 @@
 (ns stripe.token
   (:require [schema.core :as s]
-            #+clj [stripe.http :as h]
+            #?(:clj [stripe.http :as h])
             [stripe.schema :as ss]
             [stripe.util :as u]))
 
@@ -33,7 +33,8 @@
   (s/named s/Str "The cardholder's full name."))
 
 (def CardMap
-  {:number CardNumber
+  {:object (s/eq "card")
+   :number CardNumber
    :exp_month ExpMonth
    :exp_year ExpYear
    (s/optional-key :cvc) CVC
@@ -54,31 +55,30 @@
 
 ;; ## Bank and Card Tokens
 
-#+clj
 (do
-  ;; TODO: Add return schemas to the tokens.
+  #?@(:clj
+      [ ;; TODO: Add return schemas to the tokens.
+       (s/defn create-card-token :- (ss/Async)
+         "Returns a card token if successful, errors otherwise. This
+  endpoint also supports a customer token, but this is only good for
+  Stripe Connect, so I'm leaving it out for now."
+         [card :- CardMap]
+         (h/post-req "tokens" {:stripe-params
+                               {:card card}}))
 
-  (s/defn create-card-token :- (ss/Async)
-    "Returns a card token if successful, errors otherwise. This endpoint
-  also supports a customer token, but this is only good for Stripe
-  Connect, so I'm leaving it out for now."
-    [card :- CardMap]
-    (h/post-req "tokens" {:stripe-params
-                          {:card card}}))
-
-  (s/defn create-bank-token :- (ss/Async)
-    "Returns a bank token if successful, errors otherwise. The returned
-  token is good for a one-time use - you have to attach it to a
-  `recipient` object, or its worthless.
+       (s/defn create-bank-token :- (ss/Async)
+         "Returns a bank token if successful, errors otherwise. The
+  returned token is good for a one-time use - you have to attach it to
+  a `recipient` object, or its worthless.
 
   We hardcode Country here because the US is all that's currently
   supported by Stripe."
-    [account :- BankMap]
-    (h/post-req "tokens" {:stripe-params
-                          {:bank_account (assoc account
-                                           :country "US")}}))
+         [account :- BankMap]
+         (h/post-req "tokens" {:stripe-params
+                               {:bank_account (assoc account
+                                                     :country "US")}}))
 
-  (s/defn get-token :- (ss/Async)
-    "Returns a card or bank object if successful, errors otherwise."
-    [token :- (s/either CardToken BankToken)]
-    (h/get-req (str "tokens/" token))))
+       (s/defn get-token :- (ss/Async)
+         "Returns a card or bank object if successful, errors otherwise."
+         [token :- (s/either CardToken BankToken)]
+         (h/get-req (str "tokens/" token)))]))

@@ -9,4 +9,8 @@ jdk:
 - openjdk7
 env:
   global:
-    secure: LkrpSqUlIjf3+3qsDO2r3erx2tRokyYaIyCB9QT1eNjMncIvPcadmTKial67dRCbYGnwpMty2bXY7ze+uewvEapdBW/xQuNKkj4jdgP+jYc/6gx0JlD/2EmKgEhXLuA162TcfqjKaz6yvNMYtOdHK5bHHTlI+q2V60ieI9cuQpU=
+  - secure: LkrpSqUlIjf3+3qsDO2r3erx2tRokyYaIyCB9QT1eNjMncIvPcadmTKial67dRCbYGnwpMty2bXY7ze+uewvEapdBW/xQuNKkj4jdgP+jYc/6gx0JlD/2EmKgEhXLuA162TcfqjKaz6yvNMYtOdHK5bHHTlI+q2V60ieI9cuQpU=
+  - secure: I+4XToH/F2wYJgAXCaZz/M0pOk509AHZgE8+sKXaRpqTcsibiZxB4r2YNY9N4bXpnicYmIlequvUYCQVDUwSyxm7k2Ei60/axS9Sy8LL+I3skh2RMkSs+gAVI7yR+R8tuEc28VDaS2j8/SbOD2lZ16gYhtdwAtkfczIolEJaZIM=
+notifications:
+  slack:
+    secure: RmNbjkODUsjoNnR7VFcz/xdAFEKX5gsdPheoWfSShvKAZ9x5naRCbSfX6ag5PVnp2Lwe8pTAeBslMj1sGWAzkjv5CRl1pcpftI53SVXDPtWkLdR8tlmaIwvz1Twm9VFJiwBqVDPnTf+6BGW/iv9bU8gOH/P/k2OgRYaKNacj2DU=

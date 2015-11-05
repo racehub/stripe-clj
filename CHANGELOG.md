@@ -1,8 +1,27 @@
-## 0.1.5
+## 0.3.0 (7/12/2015)
+
+- Upgrade to Clojure 1.7.0 and cljc.
+
+## 0.2.1 (7/4/2015)
+
+- Upgraded to latest API schema.
+
+## 0.1.8 (2/19/2015)
+
+- Added `:bitcoin?` option on the client
+
+## 0.1.7 (ignore)
+
+## 0.1.6 (2/11/2015)
+
+- Custom checkout images and data (https://github.com/racehub/stripe-clj/pull/3)
+
+## 0.1.5 (10/14/2014)
 
 - upgrade to schema 0.3.0
 - Add the ability to set the `:stripe-secret` with an environment variable.
 - Change `:stripe-dev-token` to `:stripe-secret`
+- Add expansions to transfer request (https://github.com/racehub/stripe-clj/pull/2)
 
 ## 0.1.4 (10/08/2014)
 

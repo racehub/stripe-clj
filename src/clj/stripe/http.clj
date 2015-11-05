@@ -31,10 +31,15 @@
 ;; ## Authorization
 
 (def ^:dynamic *token* nil)
+(def ^:dynamic *api-version* nil)
 
 (s/defn api-token :- (s/maybe ApiToken)
   []
   (or *token* (:stripe-secret e/env)))
+
+(s/defn api-version :- (s/maybe s/Str)
+  []
+  (or *api-version* (:stripe-api-version e/env)))
 
 (defmacro with-token [k & forms]
   `(binding [*token* ~k]
@@ -45,6 +50,18 @@
   a per-thread basis using with-token."
   [s]
   (alter-var-root #'*token* (constantly s)))
+
+(defmacro with-api-version
+  [v & forms]
+  `(binding [*api-version* ~v]
+     ~@forms))
+
+(defn use-api-version!
+  "Permanently sets an API version. The api version can still be
+  overridden on a per-thread basis using with-api-version."
+  [s]
+  (alter-var-root #'*api-version* (constantly s)))
+
 
 ;; ## Private
 
@@ -77,8 +94,9 @@
         base-params {:basic-auth token
                      :query-params params
                      :throw-exceptions false}
-        version (when-let [v (:api-version opts)]
-                  {:headers {"Stripe-Version" v}})]
+        version (when-let [v (or (:api-version opts) (api-version))]
+                  {:headers (merge {"Stripe-Version" v}
+                                   (:headers opts))})]
     (merge base-params version (dissoc opts :api-version))))
 
 ;; ## Public Methods

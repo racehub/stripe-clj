@@ -11,7 +11,7 @@
   (s/named s/Str "The identifier of the customer to be retrieved."))
 
 (s/defschema CustomerReq
-  {(s/optional-key :card) t/Card
+  {(s/optional-key :source) t/Card
    (s/optional-key :description) s/Str
    (s/optional-key :email) s/Str
    (s/optional-key :metadata) ss/Metadata})
