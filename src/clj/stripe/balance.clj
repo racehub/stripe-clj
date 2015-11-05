@@ -10,7 +10,7 @@
 ;; ### Schema
 
 (def BalanceAmount
-  {:amount ss/NonNegativeInt
+  {:amount s/Int
    :currency ss/CurrencyID})
 
 (def BalanceTxID
@@ -74,15 +74,19 @@
 ;; ### Helpers
 
 (s/defn available-amount :- ss/NonNegativeInt
-  "Returns the current amount in USD currently available in our
-  account."
-  [balance :- Balance]
-  (-> balance :available first :amount))
+  "Returns the current amount in the given currency or USD currently
+  available in our account."
+  [{:keys [available]} :- Balance
+   & opts]
+  (let [currency (:currency (first opts) "usd")]
+    (:amount (first (filter (comp #{currency} :currency) available)))))
 
 (s/defn pending-amount :- ss/NonNegativeInt
-  "Returns the current amount in USD pending in our account."
-  [balance :- Balance]
-  (-> balance :pending first :amount))
+  "Returns the current amount in the given currency or USD pending in our account."
+  [{:keys [pending]} :- Balance
+   & opts]
+  (let [currency (:currency (first opts) "usd")]
+    (:amount (first (filter (comp #{currency} :currency) pending)))))
 
 (s/defn tx-fee :- s/Int
   [tx :- BalanceTx]
