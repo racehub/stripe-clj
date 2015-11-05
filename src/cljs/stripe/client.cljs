@@ -22,20 +22,20 @@
   site (in test mode). When the order's submitted, Stripe will pass a
   map of :token -> stripe token and :args -> additional args into the
   supplied channel."
-  [{:keys [out image key bitcoin?]} :- StripeOptions]
+  [{:keys [out image key currency bitcoin?]} :- StripeOptions]
   (-> js/StripeCheckout
       (.configure #js {:key key
                        :image image
                        :bitcoin (boolean bitcoin?)
+                       :currency (or currency "USD")
                        :opened #(put! out [:opened])
                        :closed #(put! out [:closed])
                        :token (fn [t args] (put! out [:token (js->clj t :keywordize-keys true)]))})))
 
 (s/defn present-stripe
-  [{:keys [amt email name description currency] :as opts} :- StripeOptions]
+  [{:keys [amt email name description] :as opts} :- StripeOptions]
   (.open (stripe-handler opts)
          #js {:name name
               :email email
               :description description
-              :currency (or currency "USD")
               :amount amt}))
