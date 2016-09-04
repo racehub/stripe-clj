@@ -11,7 +11,8 @@
 
 (def BalanceAmount
   {:amount s/Int
-   :currency ss/CurrencyID})
+   :currency ss/CurrencyID
+   (s/optional-key :source_types) {s/Keyword s/Int}})
 
 (def BalanceTxID
   (s/named s/Str "ID of a balance transaction."))
@@ -34,7 +35,7 @@
 (def TransactionType
   (s/enum "charge" "refund" "adjustment" "application_fee"
           "application_fee_refund" "transfer" "transfer_cancel"
-          "transfer_failure"))
+          "transfer_failure" "payment" "payment_refund"))
 
 (def BalanceTx
   (-> {:id BalanceTxID
@@ -61,7 +62,34 @@
   on the API key that was used to make the request."
   ([] (get-balance {}))
   ([opts :- h/RequestOptions]
-     (h/get-req "balance" opts)))
+   (h/get-req "balance" opts)))
+
+(s/defn get-account-balance :- (ss/Async Balance)
+  [account-id :- s/Str]
+  (get-balance {:client-options {:headers {"Stripe-Account" account-id}}}))
+
+(s/defn get-account-history :- (ss/sublist [BalanceTx])
+  ([account-id :- s/Str]
+   (get-account-history account-id {}))
+  ([account-id :- s/Str
+    opts :- {(s/optional-key :starting-after) s/Str
+             (s/optional-key :limit) s/Str}]
+   (h/get-req "balance/history"
+              {:stripe-params (merge {:limit (:limit opts 100)}
+                                     (when-let [sa (:starting-after opts)]
+                                       {:starting_after sa}))
+               :client-options {:headers {"Stripe-Account" account-id}}})))
+
+(s/defn get-all-account-history :- [BalanceTx]
+  [account-id :- s/Str]
+  (loop [page (get-account-history account-id)
+         history []]
+    (let [data (:data page)
+          all (concat history (:data page))]
+      (if (:has_more page)
+        (recur (get-account-history account-id {:starting-after (:id (last data))})
+               all)
+        all))))
 
 (s/defn get-balance-tx :- (ss/Async BalanceTx)
   "Returns a channel that contains the balance transaction referenced

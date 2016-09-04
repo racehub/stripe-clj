@@ -69,5 +69,6 @@
   {:object (s/eq "list")
    :has_more s/Bool
    :url s/Str
-   :total_count s/Int
+   (s/optional-key :total_count) s/Int
+   (s/optional-key :count) s/Int
    :data data})
