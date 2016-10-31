@@ -109,15 +109,13 @@
 (s/defschema ApplicationFeeRefundID
   (s/named s/Str "Application fee refund identifier."))
 
-(declare ApplicationFee)
-
 (s/defschema ApplicationFeeRefund
   (-> {:id ApplicationFeeRefundID
        :amount ss/Currency
        :balance_transaction (s/either b/BalanceTxID b/BalanceTx)
        :created ss/UnixTimestamp
        :currency ss/CurrencyID
-       :fee (s/either ApplicationFeeID ApplicationFee)
+       :fee (s/either ApplicationFeeID (s/named s/Any "ApplicationFee"))
        :metadata ss/Metadata}
       (ss/stripe-object "fee_refund")))
 
@@ -178,6 +176,8 @@
 ;; ## ApplicationFee API Requests
 
 (s/defn refund-app-fee :- (ss/Async ApplicationFeeRefund)
+  "Returns a channel containing the ApplicationFeeRefund, or an
+  error."
   ([req :- ApplicationFeeRefundReq]
    (refund-app-fee req {}))
   ([req :- ApplicationFeeRefundReq
