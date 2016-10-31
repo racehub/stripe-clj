@@ -101,6 +101,49 @@
        (s/optional-key :transfer) s/Str}
       (ss/stripe-object "charge")))
 
+;; ## Application Fees:
+
+(s/defschema ApplicationFeeID
+  (s/named s/Str "Application fee identifier."))
+
+(s/defschema ApplicationFeeRefundID
+  (s/named s/Str "Application fee refund identifier."))
+
+(declare ApplicationFee)
+
+(s/defschema ApplicationFeeRefund
+  (-> {:id ApplicationFeeRefundID
+       :amount ss/Currency
+       :balance_transaction (s/either b/BalanceTxID b/BalanceTx)
+       :created ss/UnixTimestamp
+       :currency ss/CurrencyID
+       :fee (s/either ApplicationFeeID ApplicationFee)
+       :metadata ss/Metadata}
+      (ss/stripe-object "fee_refund")))
+
+(s/defschema ApplicationFee
+  (-> {:id ApplicationFeeID
+       :account s/Str
+       :amount ss/Currency
+       :amount_refunded ss/Currency
+       :application s/Str
+       :balance_transaction (s/either b/BalanceTxID b/BalanceTx)
+       :charge (s/named s/Str "Payment ID")
+       :created ss/UnixTimestamp
+       :currency ss/CurrencyID
+       :livemode s/Bool
+       :originating_transaction ChargeID
+       :refunded s/Bool
+       :refunds (ss/sublist [ApplicationFeeRefund])}
+      (ss/stripe-object "application_fee")))
+
+(s/defschema ApplicationFeeRefundReq
+  "Supported options for a Stripe application fee refund request."
+  (-> {:id ChargeID
+       (s/optional-key :amount) ss/PositiveInt
+       (s/optional-key :expand) h/Expansion
+       :metadata ss/Metadata}))
+
 ;; ## Charge API Requests
 
 (s/defn create-charge :- (ss/Async)
@@ -130,7 +173,18 @@
   ([req :- RefundReq opts :- h/RequestOptions]
      (h/post-req (format "charges/%s/refund" (:id req))
                  (assoc opts
-                   :stripe-params (dissoc req :id)))))
+                        :stripe-params (dissoc req :id)))))
+
+;; ## ApplicationFee API Requests
+
+(s/defn refund-app-fee :- (ss/Async ApplicationFeeRefund)
+  ([req :- ApplicationFeeRefundReq]
+   (refund-app-fee req {}))
+  ([req :- ApplicationFeeRefundReq
+    opts :- h/RequestOptions]
+   (h/post-req (format "application_fees/%s/refunds" (:id req))
+               (assoc opts
+                      :stripe-params (dissoc req :id)))))
 
 ;; ## Helpers
 

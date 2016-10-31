@@ -42,9 +42,7 @@
   ([inner]
      (s/either inner (Channel inner))))
 
-(def CurrencyID
-  "Right now just these two are supported."
-  (s/enum "usd" "cad"))
+(def CurrencyID s/Str)
 
 (s/defschema Metadata
   "Metadata feature supported by the Stripe API. Keyword keys are converted to strings on the way over.
